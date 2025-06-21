@@ -3,6 +3,7 @@ html, body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -10,7 +11,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
   position: relative;
-  font-family: 'Roboto', sans-serif;
 }
 
 body::before {
@@ -27,11 +27,10 @@ body::before {
   filter: brightness(0.4);
   z-index: -1;
 }
-
 main {
   flex: 1 0 auto;
 }
-header{
+header, footer {
   background: rgba(0,0,0,0.7);
   color: #fff;
   text-align: center;
@@ -42,12 +41,6 @@ header{
 
 footer {
   flex-shrink: 0;
-  background: rgba(0,0,0,0.7);
-  color: #fff;
-  text-align: center;
-  padding: 1rem 0;
-  position: relative;
-  z-index: 1;
 }
 
 .card-body {
@@ -66,6 +59,34 @@ footer {
   object-fit: cover;
   display: block;
 }
+
 .producto-img {
   object-fit: contain;
+}
+
+#anuncio-carrito {
+  display: none;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: #198754;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  z-index: 9999;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: opacity 0.3s;
+}
+
+@media (max-width: 767px) {
+  .card-img-top {
+    height: 180px;
+  }
+  #anuncio-carrito {
+    top: 10px;
+    right: 10px;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+  }
 }
