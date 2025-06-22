@@ -42,17 +42,43 @@ function renderizarCarrito() {
     carrito.forEach(item => {
         total += item.precio * item.cantidad;
         const li = document.createElement('li');
-        li.className = 'list-group-item d-flex justify-content-between align-items-center';
+        li.className = 'list-group-item d-flex justify-content-between align-items-center flex-wrap';
         li.innerHTML = `
-            ${item.nombre} <span>x${item.cantidad} - $${item.precio * item.cantidad}</span>
-            <button class="btn btn-sm btn-danger ms-2 eliminar-btn">Eliminar</button>
+            <div>
+                ${item.nombre} 
+                <span>x${item.cantidad} - $${item.precio * item.cantidad}</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+                <input type="number" min="1" value="${item.cantidad}" class="form-control form-control-sm cantidad-input" style="width:70px;">
+                <button class="btn btn-sm btn-secondary actualizar-btn">Actualizar</button>
+                <button class="btn btn-sm btn-danger eliminar-btn">Eliminar</button>
+            </div>
         `;
+
         li.querySelector('.eliminar-btn').addEventListener('click', function () {
             eliminarDelCarrito(item.nombre);
+        });
+
+        li.querySelector('.actualizar-btn').addEventListener('click', function () {
+            const nuevaCantidad = parseInt(li.querySelector('.cantidad-input').value, 10);
+            if (nuevaCantidad > 0) {
+                actualizarCantidad(item.nombre, nuevaCantidad);
+            }
         });
         lista.appendChild(li);
     });
     totalSpan.textContent = `$${total}`;
+}
+
+function actualizarCantidad(nombre, cantidad) {
+    let carrito = obtenerCarrito();
+    const item = carrito.find(i => i.nombre === nombre);
+    if (item && cantidad > 0) {
+        item.cantidad = cantidad;
+        guardarCarrito(carrito);
+        renderizarCarrito();
+        mostrarAnuncioCarrito(`Cantidad de "${nombre}" actualizada`);
+    }
 }
 
 function eliminarDelCarrito(nombre) {
@@ -99,6 +125,7 @@ window.renderizarCarrito = renderizarCarrito;
 window.eliminarDelCarrito = eliminarDelCarrito;
 window.vaciarCarrito = vaciarCarrito;
 window.comprarCarrito = comprarCarrito;
+window.actualizarCantidad = actualizarCantidad;
 
 document.addEventListener('DOMContentLoaded', function () {
     if (document.getElementById('carrito-lista')) {
